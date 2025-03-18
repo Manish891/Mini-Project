@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Add.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faWallet, faReceipt } from "@fortawesome/free-solid-svg-icons";
+import { faWallet, faReceipt } from "@fortawesome/free-solid-svg-icons";
 
 const Add = () => {
     const location = useLocation();
@@ -43,9 +43,6 @@ const Add = () => {
                     ) : (
                         <p>No transactions added yet.</p>
                     )}
-                    <button className="add-button">
-                        <FontAwesomeIcon icon={faPlus} />
-                    </button>
                 </div>
             </div>
         </div>
