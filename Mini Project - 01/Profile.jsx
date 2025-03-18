@@ -1,45 +1,36 @@
 import React from "react";
-import { FaUser, FaLock, FaShieldAlt, FaSignOutAlt } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";  
-import myphoto from './my photo.jpg';
+import { faUser, faShield, faLock, faHeadset, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom"; 
 import "./Profile.css";
 
+
 const Profile = () => {
+  const navigate = useNavigate();
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <div className="profile-picture">
-          <img src={myphoto} alt="My Photo" className="profile-img" />
-        </div>
         <h2 className="profile-name">Manish</h2>
         <p className="profile-email">msiddhantham@gmail.com</p>
       </div>
-
       <div className="profile-options">
-        <Link to="/account-info" className="option account">
-          <FaUser className="icon purple" /> <span>Account Info</span>
-        </Link>
-
-        <Link to="/security-code" className="option security">
-          <FaLock className="icon green" /> <span>Security Code</span>
-        </Link>
-
-        <Link to="/privacy-policy" className="option privacy">
-          <FaShieldAlt className="icon blue" /> <span>Privacy Policy</span>
-        </Link>
-
-        <Link to="/logout" className="option logout">
-          <FaSignOutAlt className="icon red" /> <span>Logout</span>
-        </Link>
-      </div>
-
-      <div>
-        <button className="add-button">
-          <FontAwesomeIcon icon={faPlus} />
+        <button className="option account" onClick={()=>navigate('/account-info')}>
+          <FontAwesomeIcon icon={faUser} className="icon purple"/>Account Info
+        </button>
+        <button className="option security" onClick={()=>navigate('/security-code')}>
+          <FontAwesomeIcon icon={faShield} className="icon green" /> Security Code
+        </button>
+        <button className="option privacy" onClick={()=>navigate('/privacy-policy')}>
+          <FontAwesomeIcon icon={faLock} className="icon blue" /> Privacy Policy
+        </button>
+        <button className="option help" onClick={()=>navigate('/help')}>
+        <FontAwesomeIcon icon={faHeadset} className="icon yellow" /> Help
+        </button>
+        <button className="option logout" onClick={()=>navigate('/logout')}>
+          <FontAwesomeIcon icon={faRightFromBracket} className="icon red" /> Logout
         </button>
       </div>
+
     </div>
   );
 };
