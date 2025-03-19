@@ -17,9 +17,6 @@ const Profile = () => {
         <button className="option account" onClick={()=>navigate('/account-info')}>
           <FontAwesomeIcon icon={faUser} className="icon purple"/>Account Info
         </button>
-        <button className="option security" onClick={()=>navigate('/security-code')}>
-          <FontAwesomeIcon icon={faShield} className="icon green" /> Security Code
-        </button>
         <button className="option privacy" onClick={()=>navigate('/privacy-policy')}>
           <FontAwesomeIcon icon={faLock} className="icon blue" /> Privacy Policy
         </button>
