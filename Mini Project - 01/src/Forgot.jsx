@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import "./Forgot.css";  
+import "./Forgot.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    if (!email.endsWith("@gmail.com")) {
+      setEmailError("Please enter a valid @gmail.com email address.");
+      return;
+    } else {
+      setEmailError("");
+    }
+
     try {
       const response = await fetch("https://api.example.com/reset-password", {
         method: "POST",
@@ -29,7 +37,6 @@ const ForgotPassword = () => {
   return (
     <div className="forgot-container">
       <div className="forgot-form">
- 
         <img src="/wallet icon.png" alt="Wallet Icon" className="forgot-logo" />
         <h1>Personal Expense Tracker</h1>
         <h3>Forgot Password</h3>
@@ -42,9 +49,12 @@ const ForgotPassword = () => {
             value={email}
             required
           />
+          {emailError && <p className="error-message">{emailError}</p>}
           <button type="submit">Reset Password</button>
         </form>
-        <p><a href="/login">Sign In</a></p>
+        <p>
+          <a href="/login">Sign In</a>
+        </p>
         {message && <p className="password-message">{message}</p>}
       </div>
     </div>
