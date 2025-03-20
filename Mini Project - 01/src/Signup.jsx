@@ -1,53 +1,64 @@
 import React, { useState } from "react";
-import axios from "axios";  // Import Axios
+import axios from "axios"; // Import Axios
 import "./Signup.css";
 
 const SignUp = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" }); // Clear error when typing
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
+    let newErrors = { name: "", email: "", password: "", confirmPassword: "" };
 
-    if (!name.trim()) {
-      setNameError("Name is required.");
+    // Name Validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required.";
       valid = false;
-    } else {
-      setNameError("");
     }
 
-    if (!email.endsWith("@gmail.com")) {
-      setEmailError("Please enter a valid @gmail.com email address.");
+    // Email Validation
+    if (!formData.email.endsWith("@gmail.com")) {
+      newErrors.email = "Please enter a valid @gmail.com email address.";
       valid = false;
-    } else {
-      setEmailError("");
     }
 
-    if (password.length < 6 || password.length > 8) {
-      setPasswordError("Password must be between 6 and 8 characters.");
+    // Password Validation
+    if (formData.password.length < 6 || formData.password.length > 8) {
+      newErrors.password = "Password must be between 6 and 8 characters.";
       valid = false;
-    } else {
-      setPasswordError("");
     }
 
+    // Confirm Password Validation
+    if (formData.confirmPassword !== formData.password) {
+      newErrors.confirmPassword = "Passwords do not match.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    
     if (valid) {
       try {
-        const response = await axios.post("http://localhost:5000/signup", {
-          name,
-          email,
-          password
-        });
+        const response = await axios.post("http://localhost:5000/signup", formData);
 
         alert(response.data.message);
-        setName("");
-        setEmail("");
-        setPassword("");
+        setFormData({ name: "", email: "", password: "", confirmPassword: "" });
       } catch (error) {
         alert(error.response?.data?.error || "Signup failed!");
       }
@@ -61,14 +72,45 @@ const SignUp = () => {
         <h1>Personal Expense Tracker</h1>
         <h3>Sign Up</h3>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder="Full Name" onChange={(e) => setName(e.target.value)} value={name} required />
-          {nameError && <p className="error-message">{nameError}</p>}
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            onChange={handleChange}
+            value={formData.name}
+            required
+          />
+          {errors.name && <p className="error-message">{errors.name}</p>}
 
-          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} required />
-          {emailError && <p className="error-message">{emailError}</p>}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            value={formData.email}
+            required
+          />
+          {errors.email && <p className="error-message">{errors.email}</p>}
 
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} required />
-          {passwordError && <p className="error-message">{passwordError}</p>}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            value={formData.password}
+            required
+          />
+          {errors.password && <p className="error-message">{errors.password}</p>}
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            onChange={handleChange}
+            value={formData.confirmPassword}
+            required
+          />
+          {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
           <button type="submit">Sign Up</button>
         </form>
